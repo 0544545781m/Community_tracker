@@ -1,109 +1,78 @@
 # Community Development Project Tracking and Monitoring System (CD-PTMS)
 
-A web-based platform designed for Metropolitan, Municipal, and District Assemblies (MMDAs) across Ghana to register, monitor, manage, and publicly report on community development projects.
+A modern, responsive, web-based platform designed for Metropolitan, Municipal, and District Assemblies (MMDAs) across Ghana to register, monitor, manage, and publicly report on community development projects.
 
-Designed as a general-purpose, multi-tenant administrative system supporting all 16 regions and 261 MMDAs in Ghana.
+Designed as a general-purpose administrative system supporting all 16 regions and 261 MMDAs in Ghana.
+
+---
+
+## ⚡ Direct Live Server Launch (No Terminal or Build Required!)
+
+This project is built as a **Direct Web-Based Application**. You can launch and test it immediately in your browser using **VS Code Live Server**:
+
+1. In VS Code, right-click on **`index.html`** in the project explorer.
+2. Select **"Open with Live Server"**.
+3. The complete application will launch instantly in your web browser!
 
 ---
 
 ## 🏛️ Administrative Hierarchy
 
 ```text
-Ghana
- └── 16 Administrative Regions
+Republic of Ghana
+ └── 16 Official Administrative Regions (GAR, AR, CR, WR, NR, etc.)
       └── Metropolitan, Municipal & District Assemblies (MMDAs)
-           └── Communities (Towns, Sub-Districts, Electoral Areas)
+           └── Communities & Electoral Areas (Towns, Wards, Sub-districts)
                 └── Development Projects
                      └── Evidence-Based Progress Updates & Audit Records
 ```
 
 ---
 
-## 🛠️ Technology Stack
+## 🛠️ Technology Stack (Direct Web-Ready)
 
-- **Frontend:** React with TypeScript
-- **Build Tool:** Vite
-- **Styling:** Tailwind CSS (Executive Navy `#0A192F`, Emerald Green `#059669`, Warm Gold `#D97706`)
-- **Backend & Database:** Firebase (Authentication, Cloud Firestore, Firebase Storage)
-- **Icons:** Lucide React
-- **Visualizations & Charts:** Recharts
+- **Frontend:** HTML5, Semantic Web Components
+- **Styling:** Tailwind CSS (via CDN) with customized Civic & Government Palette:
+  - **Executive Navy:** `#0A192F`, `#102A43`, `#334E68`
+  - **Accent Emerald Green:** `#047857`, `#059669`
+  - **National Gold Accent:** `#D97706`, `#F59E0B`
+  - **Slate Canvas:** `#F8FAFC`
+- **Iconography:** Lucide Icons (via CDN)
+- **Data Visualizations:** Chart.js (via CDN)
+- **Backend Services:** Firebase Authentication, Cloud Firestore, Firebase Storage (with integrated persistent client fallback)
 - **Version Control:** Git & GitHub
 
 ---
 
-## 👥 User Roles & Access Control
+## 👥 Interactive User Roles & Testing Matrix
 
-1. **Super Administrator (National Level):** Full platform oversight, region and MMDA registry, global auditing, cross-district statistics.
-2. **Municipal/District Administrator (MMDA Level):** Manages local communities, creates and assigns projects, verifies submitted progress reports, generates MMDA-level reports.
-3. **Project Officer (Field Level):** Submits milestone updates, photographic evidence, and progress percentages on assigned projects.
-4. **Public User (Citizen Portal):** Searches, filters, and inspects publicly approved development projects, budgets, locations, and progress history.
+You can switch roles directly from the **Role Selector** in the top navigation bar to test all user permissions:
+
+1. **Super Administrator (National Level):** Full oversight over all 16 regions and 261 MMDAs, global audit trails, cross-district statistics.
+2. **Municipal/District Administrator (MMDA Level):** Manages local communities, registers new projects, verifies field progress reports, and generates MMDA-level reports.
+3. **Project Officer (Field Inspector):** Submits field inspection progress percentages, milestones achieved, and site photographs.
+4. **Public Citizen (Transparency Portal):** Searches, filters, and monitors publicly approved development projects, budgets, contractors, and progress photos.
 
 ---
 
-## 📁 Project Structure
+## 📁 Project Directory Structure
 
 ```text
-src/
-├── assets/             # Static logos, emblems, SVGs
-├── components/
-│   ├── common/         # Error boundaries, breadcrumbs, fallbacks
-│   ├── layout/         # TopNav, Sidebar, Footer, MobileNav
-│   └── ui/             # Reusable primitives (Buttons, Cards, Badges, Modals, Tables)
-├── config/
-│   ├── constants.ts    # Ghana regions, categories, statuses, funding sources
-│   ├── firebase.ts     # Firebase client SDK initialization
-│   └── theme.ts        # Design tokens
-├── context/
-│   └── AuthContext.tsx # User session and role-based permissions
-├── features/
-│   ├── administrative/ # Region and MMDA management
-│   ├── analytics/      # Recharts dashboards and KPI summaries
-│   ├── audit/          # Immutable activity log viewer
-│   ├── auth/           # Login, profile, password reset
-│   ├── communities/    # Community registration within MMDAs
-│   ├── progress/       # Milestone submission and independent verification
-│   ├── projects/       # Project registration, detail views, and filtering
-│   ├── public/         # Public transparency portal
-│   └── reports/        # District summary and export generation
-├── hooks/              # Custom reusable hooks
-├── lib/
-│   ├── formatters.ts   # Ghana Cedis currency (GHS), dates, status badges
-│   └── utils.ts        # Tailwind class merging utility
-├── routes/             # Role-protected route guards
-└── types/              # Strongly typed TypeScript data models
+Community_tracker/
+├── index.html               # Main Web Application & Citizen Portal
+├── css/
+│   └── styles.css           # Custom government styling & scrollbars
+├── js/
+│   ├── constants.js         # 16 Regions of Ghana, MMDAs, categories, statuses, funding sources
+│   ├── firebase-config.js   # Firebase initialization & local fallback engine
+│   ├── utils.js             # Currency formatting (GH₵), date formatters, status badges
+│   ├── data.js              # State management & persistent storage (projects, updates, audit)
+│   └── app.js               # Application UI controller, charts, tab switching & modals
+├── README.md                # System documentation
+└── .gitignore               # Version control rules
 ```
 
 ---
 
-## 🚀 Getting Started
-
-### 1. Prerequisites
-- Node.js (v18 or newer)
-- npm (v9 or newer)
-
-### 2. Environment Configuration
-Copy `.env.example` to `.env` and fill in your Firebase project credentials:
-
-```bash
-cp .env.example .env
-```
-
-### 3. Installation & Local Development
-```bash
-# Install dependencies
-npm install
-
-# Start local development server
-npm run dev
-```
-
-### 4. Production Build
-```bash
-npm run build
-```
-
----
-
-## 📄 License
-This project is developed for educational and academic research purposes (BTech ICT Final Year Project).
-
+## 📄 License & Attribution
+Developed for educational and academic research purposes (BTech ICT Final Year Engineering Project).
