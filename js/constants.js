@@ -1,5 +1,6 @@
 /**
  * Administrative Constants & Taxonomies for Ghana MMDAs
+ * Full coverage for all 16 Administrative Regions of Ghana
  */
 
 // The 16 Official Administrative Regions of Ghana
@@ -22,8 +23,81 @@ const GHANA_REGIONS = [
   { id: 'WESTERN_NORTH', code: 'WNR', name: 'Western North Region', capital: 'Sefwi Wiawso' }
 ];
 
-// Seed Sample MMDAs across various regions
+// Active MMDAs covering ALL 16 REGIONS OF GHANA
 const INITIAL_MMDAS = [
+  // 1. Ahafo Region
+  {
+    id: 'MMDA-AHR-01',
+    regionId: 'AHAFO',
+    name: 'Asunafo North Municipal Assembly',
+    code: 'ANMA',
+    type: 'MUNICIPAL',
+    capital: 'Goaso',
+    contactEmail: 'info@anma.gov.gh',
+    contactPhone: '+233 352 091 100',
+    isActive: true
+  },
+  // 2. Ashanti Region
+  {
+    id: 'MMDA-AR-01',
+    regionId: 'ASHANTI',
+    name: 'Kumasi Metropolitan Assembly',
+    code: 'KMA',
+    type: 'METROPOLITAN',
+    capital: 'Kumasi',
+    contactEmail: 'contact@kma.gov.gh',
+    contactPhone: '+233 322 022 341',
+    isActive: true
+  },
+  // 3. Bono Region
+  {
+    id: 'MMDA-BR-01',
+    regionId: 'BONO',
+    name: 'Sunyani Municipal Assembly',
+    code: 'SMA',
+    type: 'MUNICIPAL',
+    capital: 'Sunyani',
+    contactEmail: 'info@sma.gov.gh',
+    contactPhone: '+233 352 027 000',
+    isActive: true
+  },
+  // 4. Bono East Region
+  {
+    id: 'MMDA-BER-01',
+    regionId: 'BONO_EAST',
+    name: 'Techiman Municipal Assembly',
+    code: 'TeMA',
+    type: 'MUNICIPAL',
+    capital: 'Techiman',
+    contactEmail: 'info@tema.gov.gh',
+    contactPhone: '+233 352 522 110',
+    isActive: true
+  },
+  // 5. Central Region
+  {
+    id: 'MMDA-CR-01',
+    regionId: 'CENTRAL',
+    name: 'Cape Coast Metropolitan Assembly',
+    code: 'CCMA',
+    type: 'METROPOLITAN',
+    capital: 'Cape Coast',
+    contactEmail: 'info@ccma.gov.gh',
+    contactPhone: '+233 332 132 500',
+    isActive: true
+  },
+  // 6. Eastern Region
+  {
+    id: 'MMDA-ER-01',
+    regionId: 'EASTERN',
+    name: 'New Juaben South Municipal Assembly',
+    code: 'NJSMA',
+    type: 'MUNICIPAL',
+    capital: 'Koforidua',
+    contactEmail: 'info@njsma.gov.gh',
+    contactPhone: '+233 342 022 411',
+    isActive: true
+  },
+  // 7. Greater Accra Region
   {
     id: 'MMDA-GAR-01',
     regionId: 'GREATER_ACCRA',
@@ -46,28 +120,91 @@ const INITIAL_MMDAS = [
     contactPhone: '+233 302 663 947',
     isActive: true
   },
+  // 8. North East Region
   {
-    id: 'MMDA-AR-01',
-    regionId: 'ASHANTI',
-    name: 'Kumasi Metropolitan Assembly',
-    code: 'KMA',
-    type: 'METROPOLITAN',
-    capital: 'Kumasi',
-    contactEmail: 'contact@kma.gov.gh',
-    contactPhone: '+233 322 022 341',
+    id: 'MMDA-NER-01',
+    regionId: 'NORTH_EAST',
+    name: 'East Mamprusi Municipal Assembly',
+    code: 'EMMA',
+    type: 'MUNICIPAL',
+    capital: 'Nalerigu',
+    contactEmail: 'info@emma.gov.gh',
+    contactPhone: '+233 372 098 120',
     isActive: true
   },
+  // 9. Northern Region
   {
     id: 'MMDA-NR-01',
     regionId: 'NORTHERN',
     name: 'Tamale Metropolitan Assembly',
-    code: 'TMA',
+    code: 'TaMA',
     type: 'METROPOLITAN',
     capital: 'Tamale',
     contactEmail: 'contact@tma.gov.gh',
     contactPhone: '+233 372 022 100',
     isActive: true
   },
+  // 10. Oti Region
+  {
+    id: 'MMDA-OR-01',
+    regionId: 'OTI',
+    name: 'Krachi East Municipal Assembly',
+    code: 'KEMA',
+    type: 'MUNICIPAL',
+    capital: 'Dambai',
+    contactEmail: 'info@kema.gov.gh',
+    contactPhone: '+233 362 194 000',
+    isActive: true
+  },
+  // 11. Savannah Region
+  {
+    id: 'MMDA-SR-01',
+    regionId: 'SAVANNAH',
+    name: 'West Gonja Municipal Assembly',
+    code: 'WGMA',
+    type: 'MUNICIPAL',
+    capital: 'Damongo',
+    contactEmail: 'info@wgma.gov.gh',
+    contactPhone: '+233 372 092 340',
+    isActive: true
+  },
+  // 12. Upper East Region
+  {
+    id: 'MMDA-UER-01',
+    regionId: 'UPPER_EAST',
+    name: 'Bolgatanga Municipal Assembly',
+    code: 'BMA',
+    type: 'MUNICIPAL',
+    capital: 'Bolgatanga',
+    contactEmail: 'info@bma.gov.gh',
+    contactPhone: '+233 382 022 220',
+    isActive: true
+  },
+  // 13. Upper West Region
+  {
+    id: 'MMDA-UWR-01',
+    regionId: 'UPPER_WEST',
+    name: 'Wa Municipal Assembly',
+    code: 'WMA',
+    type: 'MUNICIPAL',
+    capital: 'Wa',
+    contactEmail: 'info@wma.gov.gh',
+    contactPhone: '+233 392 022 050',
+    isActive: true
+  },
+  // 14. Volta Region
+  {
+    id: 'MMDA-VR-01',
+    regionId: 'VOLTA',
+    name: 'Ho Municipal Assembly',
+    code: 'HMA',
+    type: 'MUNICIPAL',
+    capital: 'Ho',
+    contactEmail: 'info@hma.gov.gh',
+    contactPhone: '+233 362 026 800',
+    isActive: true
+  },
+  // 15. Western Region
   {
     id: 'MMDA-WR-01',
     regionId: 'WESTERN',
@@ -78,20 +215,74 @@ const INITIAL_MMDAS = [
     contactEmail: 'info@stma.gov.gh',
     contactPhone: '+233 312 046 371',
     isActive: true
+  },
+  // 16. Western North Region
+  {
+    id: 'MMDA-WNR-01',
+    regionId: 'WESTERN_NORTH',
+    name: 'Sefwi Wiawso Municipal Assembly',
+    code: 'SWMA',
+    type: 'MUNICIPAL',
+    capital: 'Sefwi Wiawso',
+    contactEmail: 'info@swma.gov.gh',
+    contactPhone: '+233 312 092 110',
+    isActive: true
   }
 ];
 
-// Seed Communities within MMDAs
+// Communities across ALL 16 REGIONS
 const INITIAL_COMMUNITIES = [
-  { id: 'COM-01', administrativeAreaId: 'MMDA-GAR-01', regionId: 'GREATER_ACCRA', name: 'Abokobi', electoralArea: 'Abokobi Ward' },
-  { id: 'COM-02', administrativeAreaId: 'MMDA-GAR-01', regionId: 'GREATER_ACCRA', name: 'Taifa', electoralArea: 'Taifa North' },
-  { id: 'COM-03', administrativeAreaId: 'MMDA-GAR-01', regionId: 'GREATER_ACCRA', name: 'Dome', electoralArea: 'Dome Central' },
-  { id: 'COM-04', administrativeAreaId: 'MMDA-GAR-02', regionId: 'GREATER_ACCRA', name: 'Jamestown', electoralArea: 'Ashiedu Keteke' },
-  { id: 'COM-05', administrativeAreaId: 'MMDA-GAR-02', regionId: 'GREATER_ACCRA', name: 'Osu', electoralArea: 'Klottey Korle' },
-  { id: 'COM-06', administrativeAreaId: 'MMDA-AR-01', regionId: 'ASHANTI', name: 'Bantama', electoralArea: 'Bantama Central' },
-  { id: 'COM-07', administrativeAreaId: 'MMDA-AR-01', regionId: 'ASHANTI', name: 'Asafo', electoralArea: 'Subin Ward' },
-  { id: 'COM-08', administrativeAreaId: 'MMDA-NR-01', regionId: 'NORTHERN', name: 'Aboabo', electoralArea: 'Tamale Central' },
-  { id: 'COM-09', administrativeAreaId: 'MMDA-WR-01', regionId: 'WESTERN', name: 'Kwesimintsim', electoralArea: 'Effia-Kwesimintsim' }
+  // Ahafo
+  { id: 'COM-AHR-01', administrativeAreaId: 'MMDA-AHR-01', regionId: 'AHAFO', name: 'Goaso Central', electoralArea: 'Goaso Ward' },
+  { id: 'COM-AHR-02', administrativeAreaId: 'MMDA-AHR-01', regionId: 'AHAFO', name: 'Mim', electoralArea: 'Mim Ahofadiekrom' },
+  // Ashanti
+  { id: 'COM-AR-01', administrativeAreaId: 'MMDA-AR-01', regionId: 'ASHANTI', name: 'Bantama', electoralArea: 'Bantama Central' },
+  { id: 'COM-AR-02', administrativeAreaId: 'MMDA-AR-01', regionId: 'ASHANTI', name: 'Asafo', electoralArea: 'Subin Ward' },
+  // Bono
+  { id: 'COM-BR-01', administrativeAreaId: 'MMDA-BR-01', regionId: 'BONO', name: 'Sunyani Central', electoralArea: 'Newtown Ward' },
+  { id: 'COM-BR-02', administrativeAreaId: 'MMDA-BR-01', regionId: 'BONO', name: 'Fiapre', electoralArea: 'Fiapre Ward' },
+  // Bono East
+  { id: 'COM-BER-01', administrativeAreaId: 'MMDA-BER-01', regionId: 'BONO_EAST', name: 'Techiman Central', electoralArea: 'Techiman Urban' },
+  { id: 'COM-BER-02', administrativeAreaId: 'MMDA-BER-01', regionId: 'BONO_EAST', name: 'Tuobodom', electoralArea: 'Tuobodom North' },
+  // Central
+  { id: 'COM-CR-01', administrativeAreaId: 'MMDA-CR-01', regionId: 'CENTRAL', name: 'Kotokuraba', electoralArea: 'Kotokuraba Market' },
+  { id: 'COM-CR-02', administrativeAreaId: 'MMDA-CR-01', regionId: 'CENTRAL', name: 'Pedu', electoralArea: 'Pedu Estate' },
+  // Eastern
+  { id: 'COM-ER-01', administrativeAreaId: 'MMDA-ER-01', regionId: 'EASTERN', name: 'Koforidua Central', electoralArea: 'Adweso' },
+  { id: 'COM-ER-02', administrativeAreaId: 'MMDA-ER-01', regionId: 'EASTERN', name: 'Effiduase', electoralArea: 'Effiduase Ward' },
+  // Greater Accra
+  { id: 'COM-GAR-01', administrativeAreaId: 'MMDA-GAR-01', regionId: 'GREATER_ACCRA', name: 'Abokobi', electoralArea: 'Abokobi Ward' },
+  { id: 'COM-GAR-02', administrativeAreaId: 'MMDA-GAR-01', regionId: 'GREATER_ACCRA', name: 'Taifa', electoralArea: 'Taifa North' },
+  { id: 'COM-GAR-03', administrativeAreaId: 'MMDA-GAR-01', regionId: 'GREATER_ACCRA', name: 'Dome', electoralArea: 'Dome Central' },
+  { id: 'COM-GAR-04', administrativeAreaId: 'MMDA-GAR-02', regionId: 'GREATER_ACCRA', name: 'Jamestown', electoralArea: 'Ashiedu Keteke' },
+  { id: 'COM-GAR-05', administrativeAreaId: 'MMDA-GAR-02', regionId: 'GREATER_ACCRA', name: 'Osu', electoralArea: 'Klottey Korle' },
+  // North East
+  { id: 'COM-NER-01', administrativeAreaId: 'MMDA-NER-01', regionId: 'NORTH_EAST', name: 'Nalerigu Central', electoralArea: 'Nalerigu Ward' },
+  { id: 'COM-NER-02', administrativeAreaId: 'MMDA-NER-01', regionId: 'NORTH_EAST', name: 'Gambaga', electoralArea: 'Gambaga East' },
+  // Northern
+  { id: 'COM-NR-01', administrativeAreaId: 'MMDA-NR-01', regionId: 'NORTHERN', name: 'Aboabo', electoralArea: 'Tamale Central' },
+  { id: 'COM-NR-02', administrativeAreaId: 'MMDA-NR-01', regionId: 'NORTHERN', name: 'Lamashegu', electoralArea: 'Tamale South' },
+  // Oti
+  { id: 'COM-OR-01', administrativeAreaId: 'MMDA-OR-01', regionId: 'OTI', name: 'Dambai Central', electoralArea: 'Dambai Lakeside' },
+  { id: 'COM-OR-02', administrativeAreaId: 'MMDA-OR-01', regionId: 'OTI', name: 'Tokuroano', electoralArea: 'Tokuroano Ward' },
+  // Savannah
+  { id: 'COM-SR-01', administrativeAreaId: 'MMDA-SR-01', regionId: 'SAVANNAH', name: 'Damongo Central', electoralArea: 'Damongo Ward' },
+  { id: 'COM-SR-02', administrativeAreaId: 'MMDA-SR-01', regionId: 'SAVANNAH', name: 'Larabanga', electoralArea: 'Larabanga Heritage Ward' },
+  // Upper East
+  { id: 'COM-UER-01', administrativeAreaId: 'MMDA-UER-01', regionId: 'UPPER_EAST', name: 'Bolgatanga Central', electoralArea: 'Tanzui Ward' },
+  { id: 'COM-UER-02', administrativeAreaId: 'MMDA-UER-01', regionId: 'UPPER_EAST', name: 'Zuarungu', electoralArea: 'Zuarungu Ward' },
+  // Upper West
+  { id: 'COM-UWR-01', administrativeAreaId: 'MMDA-UWR-01', regionId: 'UPPER_WEST', name: 'Wa Central', electoralArea: 'Wa Urban' },
+  { id: 'COM-UWR-02', administrativeAreaId: 'MMDA-UWR-01', regionId: 'UPPER_WEST', name: 'Bamahu', electoralArea: 'Bamahu Ward' },
+  // Volta
+  { id: 'COM-VR-01', administrativeAreaId: 'MMDA-VR-01', regionId: 'VOLTA', name: 'Ho Central', electoralArea: 'Ho Bankoe' },
+  { id: 'COM-VR-02', administrativeAreaId: 'MMDA-VR-01', regionId: 'VOLTA', name: 'Kpenoe', electoralArea: 'Kpenoe Sub-district' },
+  // Western
+  { id: 'COM-WR-01', administrativeAreaId: 'MMDA-WR-01', regionId: 'WESTERN', name: 'Kwesimintsim', electoralArea: 'Effia-Kwesimintsim' },
+  { id: 'COM-WR-02', administrativeAreaId: 'MMDA-WR-01', regionId: 'WESTERN', name: 'Takoradi Port Area', electoralArea: 'Takoradi Central' },
+  // Western North
+  { id: 'COM-WNR-01', administrativeAreaId: 'MMDA-WNR-01', regionId: 'WESTERN_NORTH', name: 'Sefwi Wiawso Central', electoralArea: 'Wiawso Urban' },
+  { id: 'COM-WNR-02', administrativeAreaId: 'MMDA-WNR-01', regionId: 'WESTERN_NORTH', name: 'Asawinso', electoralArea: 'Asawinso Ward' }
 ];
 
 // Project Taxonomies
@@ -130,7 +321,7 @@ const USER_ROLES = {
   SUPER_ADMIN: {
     id: 'SUPER_ADMIN',
     name: 'Super Administrator (National)',
-    description: 'Manages all regions, MMDAs, global audit trail, and cross-district statistics'
+    description: 'Manages all 16 regions, MMDAs, global audit trail, and cross-district statistics'
   },
   MMDA_ADMIN: {
     id: 'MMDA_ADMIN',

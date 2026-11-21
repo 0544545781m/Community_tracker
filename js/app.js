@@ -1,5 +1,6 @@
 /**
  * Main Application Controller (CD-PTMS)
+ * Supports all 16 Administrative Regions of Ghana
  */
 
 const App = {
@@ -17,8 +18,8 @@ const App = {
   charts: {},
 
   init() {
-    this.updateUserContextUI();
     this.populateStaticDropdowns();
+    this.updateUserContextUI();
     this.renderDashboard();
     this.renderProjectsTable();
     this.renderProgressUpdates();
@@ -36,21 +37,26 @@ const App = {
 
   handleRoleChange(role) {
     this.currentUser.role = role;
+    const mmdaBox = document.getElementById('header-mmda-box');
+
     if (role === 'SUPER_ADMIN') {
-      this.currentUser.name = 'National Coordinator';
+      this.currentUser.name = 'National Project Coordinator';
       this.currentUser.email = 'national.admin@ghanagov.gh';
       this.currentUser.administrativeAreaId = null;
       this.currentUser.regionId = null;
+      if (mmdaBox) mmdaBox.classList.add('opacity-50', 'pointer-events-none');
     } else if (role === 'MMDA_ADMIN') {
-      this.currentUser.name = 'Ga East Planning Officer';
-      this.currentUser.email = 'admin@gema.gov.gh';
-      this.currentUser.administrativeAreaId = 'MMDA-GAR-01';
-      this.currentUser.regionId = 'GREATER_ACCRA';
+      if (mmdaBox) mmdaBox.classList.remove('opacity-50', 'pointer-events-none');
+      const mmdaSelect = document.getElementById('header-mmda-select');
+      const selectedMmdaId = mmdaSelect ? mmdaSelect.value : 'MMDA-GAR-01';
+      this.setMMDAContext(selectedMmdaId);
     } else if (role === 'PROJECT_OFFICER') {
-      this.currentUser.name = 'Ing. Emmanuel Mensah';
-      this.currentUser.email = 'po.mensah@gema.gov.gh';
-      this.currentUser.administrativeAreaId = 'MMDA-GAR-01';
-      this.currentUser.regionId = 'GREATER_ACCRA';
+      if (mmdaBox) mmdaBox.classList.remove('opacity-50', 'pointer-events-none');
+      const mmdaSelect = document.getElementById('header-mmda-select');
+      const selectedMmdaId = mmdaSelect ? mmdaSelect.value : 'MMDA-GAR-01';
+      this.currentUser.name = 'Ing. Field Officer';
+      this.currentUser.email = 'field.officer@assembly.gov.gh';
+      this.currentUser.administrativeAreaId = selectedMmdaId;
     } else if (role === 'PUBLIC_USER') {
       this.currentUser.name = 'Citizen Visitor';
       this.currentUser.email = 'citizen@community.org';
@@ -66,6 +72,26 @@ const App = {
     this.renderDashboard();
     this.renderProjectsTable();
     this.renderProgressUpdates();
+    this.renderReports();
+  },
+
+  handleHeaderMMDAChange(mmdaId) {
+    this.setMMDAContext(mmdaId);
+    this.updateUserContextUI();
+    this.renderDashboard();
+    this.renderProjectsTable();
+    this.renderProgressUpdates();
+    this.renderReports();
+  },
+
+  setMMDAContext(mmdaId) {
+    const mmda = DataStore.getMMDAs().find(m => m.id === mmdaId);
+    if (mmda) {
+      this.currentUser.administrativeAreaId = mmda.id;
+      this.currentUser.regionId = mmda.regionId;
+      this.currentUser.name = `${mmda.name} Planning Officer`;
+      this.currentUser.email = mmda.contactEmail || `admin@${mmda.code.toLowerCase()}.gov.gh`;
+    }
   },
 
   updateUserContextUI() {
@@ -73,6 +99,7 @@ const App = {
     const badgeEl = document.getElementById('user-role-badge');
     const initialsEl = document.getElementById('user-avatar-initials');
     const mmdaEl = document.getElementById('active-mmda-name');
+    const mmdaSelect = document.getElementById('header-mmda-select');
 
     if (nameEl) nameEl.textContent = this.currentUser.name;
     if (badgeEl) badgeEl.textContent = USER_ROLES[this.currentUser.role]?.name || this.currentUser.role;
@@ -80,11 +107,15 @@ const App = {
     
     if (mmdaEl) {
       if (this.currentUser.role === 'SUPER_ADMIN') {
-        mmdaEl.textContent = 'Republic of Ghana (All MMDAs)';
+        mmdaEl.textContent = 'Republic of Ghana (All 16 Regions)';
       } else {
         const mmda = DataStore.getMMDAs().find(m => m.id === this.currentUser.administrativeAreaId);
-        mmdaEl.textContent = mmda ? mmda.name : 'All Districts';
+        mmdaEl.textContent = mmda ? `${mmda.name}` : 'District Assembly';
       }
+    }
+
+    if (mmdaSelect && this.currentUser.administrativeAreaId) {
+      mmdaSelect.value = this.currentUser.administrativeAreaId;
     }
   },
 
@@ -108,7 +139,6 @@ const App = {
     const activeNav = document.getElementById(`nav-${viewName}`);
     if (activeNav) activeNav.classList.add('nav-active');
 
-    // Trigger charts resize when dashboard becomes active
     if (viewName === 'dashboard') {
       this.renderCharts();
     }
@@ -245,7 +275,7 @@ const App = {
   },
 
   renderDashboardRecentUpdates() {
-    const updates = DataStore.getUpdates().slice(0, 3);
+    const updates = DataStore.getUpdates().slice(0, 4);
     const container = document.getElementById('dashboard-recent-updates');
     if (!container) return;
 
@@ -280,6 +310,8 @@ const App = {
         </div>
       `;
     }).join('');
+
+    if (window.lucide) window.lucide.createIcons();
   },
 
   // RENDER: PROJECTS TABLE
@@ -314,7 +346,7 @@ const App = {
           </td>
           <td class="py-3 px-4">
             <div class="font-medium text-slate-800">${mmda ? mmda.name : 'MMDA'}</div>
-            <div class="text-[10px] text-slate-500">${reg ? reg.name : ''}</div>
+            <div class="text-[10px] text-slate-500 font-semibold text-gov-gold">${reg ? reg.name : ''}</div>
           </td>
           <td class="py-3 px-4 font-semibold text-slate-900">${formatGHS(p.budgetGHS)}</td>
           <td class="py-3 px-4">${getStatusBadge(p.status)}</td>
@@ -367,10 +399,11 @@ const App = {
 
   getFilteredProjectsForUser() {
     const all = DataStore.getProjects();
+    // Super Administrator has unrestricted national access to all 16 regions
     if (this.currentUser.role === 'SUPER_ADMIN') {
       return all;
     }
-    // District boundary isolation: MMDA admins & project officers only see their MMDA projects
+    // MMDA Admin & Project Officers see projects assigned to their administrative assembly
     if (this.currentUser.administrativeAreaId) {
       return all.filter(p => p.administrativeAreaId === this.currentUser.administrativeAreaId);
     }
@@ -454,32 +487,51 @@ const App = {
     }
   },
 
-  // RENDER: ADMINISTRATIVE (REGIONS & MMDAS)
+  // RENDER: ADMINISTRATIVE (ALL 16 REGIONS & MMDAS)
   renderAdministrative() {
     const grid = document.getElementById('regions-grid');
+    const allProjects = DataStore.getProjects();
+    const allMmdas = DataStore.getMMDAs();
+
     if (grid) {
-      grid.innerHTML = GHANA_REGIONS.map(r => `
-        <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
-          <span class="text-[10px] font-bold text-gov-gold block">${r.code}</span>
-          <span class="font-bold text-slate-900 text-xs block truncate">${r.name}</span>
-          <span class="text-[10px] text-slate-500">Seat: ${r.capital}</span>
-        </div>
-      `).join('');
+      grid.innerHTML = GHANA_REGIONS.map(r => {
+        const mmdasInRegion = allMmdas.filter(m => m.regionId === r.id);
+        const projectsInRegion = allProjects.filter(p => p.regionId === r.id);
+
+        return `
+          <div class="p-3.5 bg-slate-50 hover:bg-slate-100/80 transition-colors rounded-xl border border-slate-200">
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-gov-navy-900 text-gov-gold font-mono">${r.code}</span>
+              <span class="text-[10px] text-slate-500 font-medium">${mmdasInRegion.length} MMDA(s)</span>
+            </div>
+            <span class="font-bold text-slate-900 text-xs block truncate mt-1">${r.name}</span>
+            <span class="text-[10px] text-slate-500 block">Cap: ${r.capital}</span>
+            <div class="mt-2 pt-2 border-t border-slate-200/70 flex items-center justify-between text-[10px]">
+              <span class="text-slate-500">Projects:</span>
+              <span class="font-bold text-emerald-700">${projectsInRegion.length} Active</span>
+            </div>
+          </div>
+        `;
+      }).join('');
     }
 
     const tbody = document.getElementById('mmdas-table-body');
     if (tbody) {
-      const mmdas = DataStore.getMMDAs();
-      tbody.innerHTML = mmdas.map(m => {
+      tbody.innerHTML = allMmdas.map(m => {
         const reg = GHANA_REGIONS.find(r => r.id === m.regionId);
+        const projectsInMmda = allProjects.filter(p => p.administrativeAreaId === m.id);
+
         return `
           <tr class="hover:bg-slate-50">
-            <td class="py-3 px-4 font-bold text-slate-900">${m.name}</td>
+            <td class="py-3 px-4 font-bold text-slate-900">
+              ${m.name}
+              <span class="block text-[10px] text-slate-500 font-normal">${m.contactEmail || ''}</span>
+            </td>
             <td class="py-3 px-4 font-mono font-medium">${m.code}</td>
             <td class="py-3 px-4"><span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 text-slate-800">${m.type}</span></td>
-            <td class="py-3 px-4">${reg ? reg.name : m.regionId}</td>
+            <td class="py-3 px-4 font-semibold text-slate-700">${reg ? reg.name : m.regionId}</td>
             <td class="py-3 px-4">${m.capital}</td>
-            <td class="py-3 px-4"><span class="text-emerald-700 font-semibold">Active</span></td>
+            <td class="py-3 px-4"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">${projectsInMmda.length} Project(s)</span></td>
           </tr>
         `;
       }).join('');
@@ -503,7 +555,7 @@ const App = {
           <td class="py-3 px-4 font-bold text-slate-900">${c.name}</td>
           <td class="py-3 px-4 text-slate-600">${c.electoralArea || 'N/A'}</td>
           <td class="py-3 px-4 font-medium text-slate-800">${mmda ? mmda.name : 'MMDA'}</td>
-          <td class="py-3 px-4 text-slate-600">${reg ? reg.name : c.regionId}</td>
+          <td class="py-3 px-4 font-semibold text-slate-700">${reg ? reg.name : c.regionId}</td>
         </tr>
       `;
     }).join('');
@@ -516,10 +568,15 @@ const App = {
     const totalBudget = projects.reduce((sum, p) => sum + (Number(p.budgetGHS) || 0), 0);
     const avgProgress = totalProjects ? Math.round(projects.reduce((sum, p) => sum + (Number(p.progressPercentage) || 0), 0) / totalProjects) : 0;
 
-    document.getElementById('report-date').textContent = new Date().toLocaleDateString('en-GB');
-    document.getElementById('report-total-projects').textContent = totalProjects;
-    document.getElementById('report-total-budget').textContent = formatGHS(totalBudget);
-    document.getElementById('report-exec-rate').textContent = `${avgProgress}%`;
+    const dateEl = document.getElementById('report-date');
+    const totPrjEl = document.getElementById('report-total-projects');
+    const totBudEl = document.getElementById('report-total-budget');
+    const execRateEl = document.getElementById('report-exec-rate');
+
+    if (dateEl) dateEl.textContent = new Date().toLocaleDateString('en-GB');
+    if (totPrjEl) totPrjEl.textContent = totalProjects;
+    if (totBudEl) totBudEl.textContent = formatGHS(totalBudget);
+    if (execRateEl) execRateEl.textContent = `${avgProgress}%`;
 
     const wrapper = document.getElementById('report-table-wrapper');
     if (!wrapper) return;
@@ -530,6 +587,7 @@ const App = {
           <tr>
             <th class="p-2.5">Ref No</th>
             <th class="p-2.5">Title</th>
+            <th class="p-2.5">Region</th>
             <th class="p-2.5">Contractor</th>
             <th class="p-2.5">Budget</th>
             <th class="p-2.5">Status</th>
@@ -537,16 +595,20 @@ const App = {
           </tr>
         </thead>
         <tbody class="divide-y divide-slate-200">
-          ${projects.map(p => `
-            <tr>
-              <td class="p-2.5 font-mono">${p.referenceNumber}</td>
-              <td class="p-2.5 font-medium text-slate-900">${p.title}</td>
-              <td class="p-2.5 text-slate-600">${p.contractor}</td>
-              <td class="p-2.5 font-semibold">${formatGHS(p.budgetGHS)}</td>
-              <td class="p-2.5">${p.status}</td>
-              <td class="p-2.5 font-bold">${p.progressPercentage}%</td>
-            </tr>
-          `).join('')}
+          ${projects.map(p => {
+            const reg = GHANA_REGIONS.find(r => r.id === p.regionId);
+            return `
+              <tr>
+                <td class="p-2.5 font-mono">${p.referenceNumber}</td>
+                <td class="p-2.5 font-medium text-slate-900">${p.title}</td>
+                <td class="p-2.5 text-slate-600">${reg ? reg.name : p.regionId}</td>
+                <td class="p-2.5 text-slate-600">${p.contractor}</td>
+                <td class="p-2.5 font-semibold">${formatGHS(p.budgetGHS)}</td>
+                <td class="p-2.5">${p.status}</td>
+                <td class="p-2.5 font-bold">${p.progressPercentage}%</td>
+              </tr>
+            `;
+          }).join('')}
         </tbody>
       </table>
     `;
@@ -570,7 +632,7 @@ const App = {
     `).join('');
   },
 
-  // RENDER: PUBLIC CITIZEN PORTAL
+  // RENDER: PUBLIC CITIZEN PORTAL (ACROSS ALL 16 REGIONS)
   renderPublicProjects() {
     const grid = document.getElementById('public-projects-grid');
     if (!grid) return;
@@ -654,39 +716,45 @@ const App = {
     if (window.lucide) window.lucide.createIcons();
   },
 
-  // STATIC DROPDOWNS POPULATION
+  // STATIC DROPDOWNS POPULATION (ALL 16 REGIONS)
   populateStaticDropdowns() {
-    // Populate Region dropdowns
+    // 1. Populate Region dropdowns
     const regOpts = GHANA_REGIONS.map(r => `<option value="${r.id}">${r.name} (${r.code})</option>`).join('');
     const modalReg = document.getElementById('modal-proj-region');
     const pubReg = document.getElementById('public-region-filter');
     if (modalReg) modalReg.innerHTML = regOpts;
     if (pubReg) pubReg.innerHTML = '<option value="">All 16 Regions</option>' + regOpts;
 
-    // Populate Category dropdowns
+    // 2. Populate Category dropdowns
     const catOpts = PROJECT_CATEGORIES.map(c => `<option value="${c.value}">${c.label}</option>`).join('');
     const modalCat = document.getElementById('modal-proj-category');
     const filterCat = document.getElementById('filter-category');
     if (modalCat) modalCat.innerHTML = catOpts;
     if (filterCat) filterCat.innerHTML = '<option value="">All Categories</option>' + catOpts;
 
-    // Populate Status filter dropdown
+    // 3. Populate Status filter dropdown
     const statOpts = PROJECT_STATUSES.map(s => `<option value="${s.value}">${s.label}</option>`).join('');
     const filterStat = document.getElementById('filter-status');
     if (filterStat) filterStat.innerHTML = '<option value="">All Statuses</option>' + statOpts;
 
-    // Populate Funding dropdown
+    // 4. Populate Funding dropdown
     const fundOpts = FUNDING_SOURCES.map(f => `<option value="${f.value}">${f.label}</option>`).join('');
     const modalFund = document.getElementById('modal-proj-funding');
     if (modalFund) modalFund.innerHTML = fundOpts;
 
-    // Populate MMDAs dropdown in filter
+    // 5. Populate Header MMDA Selector & Filter MMDA dropdown (Covering all 16 regions!)
     const mmdas = DataStore.getMMDAs();
-    const mmdaOpts = mmdas.map(m => `<option value="${m.id}">${m.name} (${m.code})</option>`).join('');
-    const filterMmda = document.getElementById('filter-mmda');
-    if (filterMmda) filterMmda.innerHTML = '<option value="">All MMDAs</option>' + mmdaOpts;
+    const mmdaOpts = mmdas.map(m => {
+      const reg = GHANA_REGIONS.find(r => r.id === m.regionId);
+      return `<option value="${m.id}">${m.name} (${reg ? reg.code : m.regionId})</option>`;
+    }).join('');
 
-    // Trigger initial MMDA population in modal
+    const filterMmda = document.getElementById('filter-mmda');
+    const headerMmda = document.getElementById('header-mmda-select');
+    if (filterMmda) filterMmda.innerHTML = '<option value="">All MMDAs</option>' + mmdaOpts;
+    if (headerMmda) headerMmda.innerHTML = mmdaOpts;
+
+    // Initial MMDA population in modal
     if (modalReg && modalReg.value) {
       this.handleModalRegionChange(modalReg.value);
     }
@@ -769,6 +837,7 @@ const App = {
     this.renderProjectsTable();
     this.renderReports();
     this.renderAuditTrail();
+    this.renderAdministrative();
     this.renderPublicProjects();
 
     alert(`Project successfully registered with Reference Number: ${projectData.referenceNumber}`);

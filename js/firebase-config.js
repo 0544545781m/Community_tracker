@@ -30,3 +30,4 @@ if (isFirebaseAvailable) {
 } else {
   console.log('Running in browser-native storage mode (Direct Live Server ready).');
 }
+

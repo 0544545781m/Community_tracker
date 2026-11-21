@@ -47,3 +47,4 @@ function generateReferenceNumber(regionCode, mmdaCode) {
   const randNum = String(Math.floor(100 + Math.random() * 900));
   return `${regionCode || 'GAR'}-${mmdaCode || 'GEMA'}-${year}-${randNum}`;
 }
+
